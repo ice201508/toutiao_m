@@ -1,10 +1,15 @@
 import Vue from 'vue';
+import Vant from 'vant';
+import './styles/index.less';
+import 'vant/lib/index.css';
+import 'amfe-flexible';
+
 import App from './App.vue';
 import router from './router';
 import store from './store';
-import './styles/index.less';
 
 Vue.config.productionTip = false;
+Vue.use(Vant);
 
 new Vue({
   router,
