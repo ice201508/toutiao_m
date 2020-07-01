@@ -1,19 +1,16 @@
 import request from '@/utils/request.js';
 
-export const login = () => {
+export const login = (data) => {
   return request({
-    url: '/get',
-    params: {
-      ttt: 'zs',
-      yyy: '123456'
-    }
+    url: '/app/v1_0/authorizations',
+    method: 'post',
+    data
   });
 };
 
-export const registry = (data) => {
+export const getSmsCode = (data) => {
   return request({
-    url: '/post',
-    method: 'post',
-    data
+    url: `/app/v1_0/sms/codes/${data}`,
+    method: 'get'
   });
 };
