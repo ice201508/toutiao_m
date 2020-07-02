@@ -143,6 +143,7 @@ export default {
           console.log('3登录成功：', res);
           this.$store.commit('setToken', res.data);
           this.$toast.success('登录成功');
+          this.$router.push('/my');
         })
         .catch((err) => {
           this.$toast.fail('登录失败');

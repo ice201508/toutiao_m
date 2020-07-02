@@ -14,3 +14,9 @@ export const getSmsCode = (data) => {
     method: 'get'
   });
 };
+
+export const getUserProfile = () => {
+  return request({
+    url: '/app/v1_0/user'
+  });
+};

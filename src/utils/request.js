@@ -52,7 +52,7 @@ request.interceptors.request.use(
     const storage_token = store.state;
     console.log('请求拦截器访问$store: ', storage_token);
     if (storage_token && storage_token.token) {
-      config.headers.Authorization = 'Bearer ' + storage_token.token;
+      config.headers.Authorization = 'Bearer ' + storage_token.token.token;
     }
     return config;
   },
