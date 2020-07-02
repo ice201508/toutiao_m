@@ -20,3 +20,9 @@ export const getUserProfile = () => {
     url: '/app/v1_0/user'
   });
 };
+
+export const getUserChannels = () => {
+  return request({
+    url: '/app/v1_0/user/channels'
+  });
+};

@@ -68,10 +68,10 @@ request.interceptors.response.use(
   },
   function(error) {
     // 在这里对token过期的 逻辑处理
-    if (error.response && error.response.state === 401) {
+    if (error.response && error.response.status === 401) {
       // 进入了这个函数，说明token已经过期了
       const token_storage = store.state;
-      if (!token_storage || !token_storage.refresh_token) {
+      if (!token_storage || !token_storage.token.refresh_token) {
         // 如果不存在refresh_token这个值
         router.push('/login');
         return;
@@ -83,10 +83,11 @@ request.interceptors.response.use(
           url: 'http://ttapi.research.itcast.cn/app/v1_0/authorizations',
           method: 'put',
           headers: {
-            Authorization: `Bearer ${token_storage.refresh_token}`
+            'Content-Type': 'application/x-www-form-urlencoded',
+            Authorization: `Bearer ${token_storage.token.refresh_token}`
           }
         }).then((res) => {
-          console.log('刷新token成功：', res);
+          console.log(11, res);
           store.commit('setToken', {
             token: res.data.data.token,
             // 刷新的token还是使用原来的token

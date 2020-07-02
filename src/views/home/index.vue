@@ -15,13 +15,12 @@
       </div>
     </van-nav-bar>
     <!-- 频道列表 -->
-    <van-tabs class="home-tabs" v-model="active" animated swipeable>
-      <van-tab title="标签 1">内容 1</van-tab>
-      <van-tab title="标签 2">内容 2</van-tab>
-      <van-tab title="标签 3">内容 3</van-tab>
-      <van-tab title="标签 4">内容 4</van-tab>
-      <van-tab title="标签 5">内容 5</van-tab>
-      <van-tab title="标签 6">内容 6</van-tab>
+    <van-tabs class="home-tabs" color="#3296fa" line-width="18" animated swipeable>
+      <van-tab :title="item.name" v-for="item in channels" :key="item.id">
+        <!-- 文章列表 -->
+        <!-- 写成组件的形式，这样每点击一下tabbar都可以将对已的文章列表数据保存起来 -->
+        <article-list :channelid="item.id"></article-list>
+      </van-tab>
       <div slot="nav-right" class="placeholder"></div>
       <div slot="nav-right" class="ht-icon">
         <i class="iconfont icongengduo"></i>
@@ -31,17 +30,32 @@
 </template>
 
 <script>
+import { getUserChannels } from '@/api/user';
+import articleList from './components/article-list.vue';
+
 export default {
   name: 'home',
   data() {
     return {
-      active: 1
+      channels: []
     };
   },
+  components: {
+    articleList
+  },
+  created() {
+    this.getChannels();
+  },
   methods: {
-    onClickRight() {
-      console.log(123);
-    }
+    async getChannels() {
+      try {
+        const res = await getUserChannels();
+        this.channels = res.data.channels;
+      } catch (err) {
+        this.$toast.fail('获取用户频道信息失败');
+      }
+    },
+    onClickRight() {}
   }
 };
 </script>
@@ -72,6 +86,10 @@ export default {
   }
 }
 .home-tabs {
+  /deep/ .van-tabs__nav .van-tab {
+    border-right: 1px solid #edeff3;
+    border-bottom: 1px solid #edeff3;
+  }
   .placeholder {
     flex-shrink: 0;
     width: 66px;
