@@ -5,11 +5,11 @@ import Qs from 'qs';
 import router from '../router';
 
 const request = axios.create({
-  // baseURL: 'http://ttapi.research.itcast.cn/',
-  baseURL: '/tt',
+  baseURL: 'http://ttapi.research.itcast.cn/',
+  // baseURL: '/tt',
   // baseURL: 'https://api.leijiuling.com',
-  timeout: 1000,
-  responseType: 'json',
+  // timeout: 1000,
+  // responseType: 'json',
   // 跨域请求要想带上cookie，必须要在ajax请求里加上withCredentials
   // withCredentials: true
   // transformRequest: [

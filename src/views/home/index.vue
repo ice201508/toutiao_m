@@ -1,7 +1,7 @@
 <template>
-  <div>
+  <div class="home-container">
     <!-- 顶部导航 -->
-    <van-nav-bar left-arrow @click-right="onClickRight" class="home-nav-bar">
+    <van-nav-bar left-arrow @click-right="onClickRight" class="home-nav-bar" fixed>
       <div slot="left" class="navbar-left">
         <img :src="require('@/assets/logo.png')" alt="" />
       </div>
@@ -61,6 +61,18 @@ export default {
 </script>
 
 <style lang="less" scoped>
+.home-container {
+  padding-top: 180px;
+  padding-bottom: 100px;
+  /deep/ .van-tabs__wrap {
+    position: fixed;
+    top: 92px;
+    left: 0;
+    right: 0;
+    z-index: 1;
+    overflow-y: auto;
+  }
+}
 .home-nav-bar {
   color: #fff;
   background-color: #3296fa;
