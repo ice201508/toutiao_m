@@ -15,18 +15,19 @@
         error-text="请求失败，点击重新加载"
         @load="onLoad"
       >
-        <van-cell
-          v-for="item in list"
-          :key="item.art_id"
-          :title="item.title"
+        <!-- <van-cell
+          v-for="(article, index) in list"
+          :key="index"
+          :title="article.title"
           style="display: block"
         >
           <div>
-            <span>{{ item.aut_name }}</span>
-            <span>{{ item.comm_count }}评论</span>
-            <span>{{ item.pubdate }}</span>
+            <span>{{ article.aut_name }}</span>
+            <span>{{ article.comm_count }}评论</span>
+            <span>{{ article.pubdate }}</span>
           </div>
-        </van-cell>
+        </van-cell> -->
+        <ArticleItem v-for="(article, index) in list" :key="index" :article="article"></ArticleItem>
       </van-list>
     </van-pull-refresh>
   </div>
@@ -34,9 +35,15 @@
 
 <script>
 import { getArticle } from '@/api/article.js';
+import ArticleItem from '@/components/articleitem/index.vue';
+// "export 'ArticleItem' was not found in '@/components/articleitem/index.vue'  这种导出default的， import的时候，一定不能使用 对象的形式导入，要使用一个普通变量
+// import { ArticleItem }from '@/components/articleitem/index.vue';
 
 export default {
-  name: 'articlelist',
+  name: 'ArticleList',
+  components: {
+    ArticleItem
+  },
   props: {
     channelid: Number
   },
@@ -114,11 +121,5 @@ export default {
   left: 0;
   right: 0;
   overflow-y: auto;
-}
-/deep/ .van-cell__value {
-  text-align: left;
-  span {
-    margin-right: 20px;
-  }
 }
 </style>
