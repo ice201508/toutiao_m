@@ -17,7 +17,12 @@
     <!-- 没有获取推荐频道的接口，但是有获取所有频道接口和用户频道接口的  api， 两个相减，就是我们需要的推荐的频道接口 -->
     <van-cell title="频道推荐" size="large" />
     <van-grid :gutter="10">
-      <van-grid-item class="channel-item" v-for="value in tuijianPindao" :key="value.id">
+      <van-grid-item
+        class="channel-item"
+        v-for="value in recommendChannels"
+        :key="value.id"
+        @click="onAddChannel(value)"
+      >
         <div slot="text">
           <van-icon name="plus"></van-icon>
           <span>{{ value.name }}</span>
@@ -41,7 +46,7 @@ export default {
   },
   data() {
     return {
-      tuijianPindao: []
+      allChannel: []
     };
   },
   created() {
@@ -49,19 +54,27 @@ export default {
   },
   methods: {
     async getAllChannels() {
+      // 之前这样写完了已经，展示没问题，但是在添加的时候，应该是我的频道新增，推荐频道删除对应的栏目， 所以用方法就不是很合适，只会在进入这个组件的时候执行一次，后面就不会执行了，所有应该使用计算属性，只要想对应this上面的值一发生改变，就执行对应的函数
       try {
         const res = await getAllChannels();
-        this.tuijianPindao = res.data.channels.filter((item) => {
-          return (
-            this.channels.findIndex((childItem) => {
-              return item.id === childItem.id;
-            }) === -1
-          );
-        });
-        console.log('所有频道：', this.tuijianPindao);
+        this.allChannel = res.data.channels;
       } catch (err) {
         console.log('‘获取失败');
       }
+    },
+    onAddChannel(param) {
+      this.channels.push(param);
+    }
+  },
+  computed: {
+    recommendChannels() {
+      return this.allChannel.filter((item) => {
+        return (
+          this.channels.findIndex((childItem) => {
+            return item.id === childItem.id;
+          }) === -1
+        );
+      });
     }
   }
 };
