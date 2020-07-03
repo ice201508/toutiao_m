@@ -1,5 +1,5 @@
 <template>
-  <van-cell class="article-item">
+  <van-cell class="article-item" center>
     <div slot="title">
       {{ article.title }}
     </div>

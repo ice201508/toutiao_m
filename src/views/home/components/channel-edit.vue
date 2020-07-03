@@ -1,15 +1,21 @@
 <template>
   <div class="chancel-edit">
     <!-- 先使用假数据，将html结构和样式代码书写完成 -->
-    <van-cell title="我的频道" size="large">
-      <van-button type="danger" round size="small" plain>编辑</van-button>
+    <van-cell title="我的频道" size="large" :border="false">
+      <van-button type="danger" round size="small" plain @click="isShowEdit = !isShowEdit">{{
+        isShowEdit ? '完成' : '编辑'
+      }}</van-button>
     </van-cell>
     <!-- 使用宫格插件，格子间距 -->
-    <van-grid :gutter="10" :column-num="4">
-      <van-grid-item class="channel-item" v-for="value in channels" :key="value.id">
-        <div slot="text">
-          <span>{{ value.name }}</span>
-        </div>
+    <van-grid :gutter="10" :border="false" class="my-grid">
+      <van-grid-item
+        class="channel-item"
+        :class="{ 'is-edit': isShowEdit && value.id !== 0 }"
+        v-for="value in channels"
+        :key="value.id"
+      >
+        <van-icon v-show="isShowEdit && value.id !== 0" slot="icon" name="clear" />
+        <span slot="text">{{ value.name }}</span>
       </van-grid-item>
     </van-grid>
 
@@ -24,7 +30,7 @@
         @click="onAddChannel(value)"
       >
         <div slot="text">
-          <van-icon name="plus"></van-icon>
+          <van-icon class="icon-plus" name="plus"></van-icon>
           <span>{{ value.name }}</span>
         </div>
       </van-grid-item>
@@ -46,7 +52,8 @@ export default {
   },
   data() {
     return {
-      allChannel: []
+      allChannel: [],
+      isShowEdit: false
     };
   },
   created() {
@@ -63,6 +70,7 @@ export default {
       }
     },
     onAddChannel(param) {
+      // 单向数据流问题， 数组的push不算更改
       this.channels.push(param);
     }
   },
@@ -85,17 +93,28 @@ export default {
   padding-top: 85px;
   font-size: 32px;
   .channel-item {
+    width: 160px;
+    height: 86px;
     font-size: 28px;
     /deep/ .van-grid-item__content--center {
-      width: 160px;
-      height: 86px;
       background-color: #f4f5f6;
       white-space: nowrap;
       word-break: break-all;
       overflow: hidden;
       text-overflow: ellipsis;
+      // position: relative;
     }
-    /deep/ .van-icon {
+    /deep/ .van-grid-item__icon-wrapper {
+      position: unset;
+      .van-icon {
+        position: absolute;
+        top: -8px;
+        right: 8px;
+        font-size: 30px;
+        color: #cacaca;
+      }
+    }
+    /deep/ .van-icon.icon-plus {
       margin-right: 4px;
       top: 6px;
       font-size: 32px;
@@ -104,5 +123,8 @@ export default {
 }
 /deep/ .van-cell__title {
   line-height: 60px;
+}
+/deep/ .channel-item.is-edit .van-grid-item__content {
+  box-shadow: 1px 1px 6px 2px rgba(0, 0, 0, 0.14);
 }
 </style>
