@@ -31,12 +31,12 @@
     <van-popup
       v-model="show"
       closeable
-      close-icon="close"
       close-icon-position="top-left"
       position="bottom"
       :style="{ height: '100%' }"
       bind:close="onClose"
     >
+      <channel-edit :channels="channels" />
     </van-popup>
   </div>
 </template>
@@ -44,6 +44,7 @@
 <script>
 import { getUserChannels } from '@/api/user';
 import articleList from './components/article-list.vue';
+import ChannelEdit from './components/channel-edit.vue';
 
 export default {
   name: 'home',
@@ -54,7 +55,8 @@ export default {
     };
   },
   components: {
-    articleList
+    articleList,
+    ChannelEdit
   },
   created() {
     this.getChannels();
