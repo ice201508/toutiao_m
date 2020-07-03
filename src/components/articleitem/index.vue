@@ -1,5 +1,5 @@
 <template>
-  <van-cell>
+  <van-cell class="article-item">
     <div slot="title">
       {{ article.title }}
     </div>
@@ -11,11 +11,12 @@
       <div>
         <span>{{ article.aut_name }}</span>
         <span>{{ article.comm_count }}评论</span>
-        <span>{{ article.pubdate }}</span>
+        <span>{{ article.pubdate | relativeTime }}</span>
       </div>
     </div>
     <div class="default-img" slot="default" v-if="article.cover.type === 1">
-      <img :src="article.cover.images[0]" />
+      <!-- <img :src="article.cover.images[0]" /> -->
+      <van-image class="cover-item-img" fit="cover" :src="article.cover.images[0]" />
     </div>
   </van-cell>
 </template>
@@ -41,8 +42,11 @@ export default {
 }
 .img-three {
   display: flex;
+  height: 163px;
+  margin: 15px 0;
   img {
     flex: 1;
+    height: 100%;
   }
 }
 .default-img {

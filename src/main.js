@@ -3,6 +3,7 @@ import Vant from 'vant';
 import './styles/index.less';
 import 'vant/lib/index.css';
 import 'amfe-flexible';
+import './utils/dayjs';
 
 import App from './App.vue';
 import router from './router';
@@ -14,5 +15,5 @@ Vue.use(Vant);
 new Vue({
   router,
   store,
-  render: (h) => h(App),
+  render: (h) => h(App)
 }).$mount('#app');
