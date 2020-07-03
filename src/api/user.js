@@ -21,6 +21,7 @@ export const getUserProfile = () => {
   });
 };
 
+// 获取用户的频道接口
 export const getUserChannels = () => {
   return request({
     url: '/app/v1_0/user/channels'

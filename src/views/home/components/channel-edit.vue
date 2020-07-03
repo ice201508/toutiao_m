@@ -14,11 +14,13 @@
     </van-grid>
 
     <!-- 频道推荐 -->
+    <!-- 没有获取推荐频道的接口，但是有获取所有频道接口和用户频道接口的  api， 两个相减，就是我们需要的推荐的频道接口 -->
     <van-cell title="频道推荐" size="large" />
     <van-grid :gutter="10">
-      <van-grid-item class="channel-item" v-for="value in 24" :key="value" text="+文字">
+      <van-grid-item class="channel-item" v-for="value in tuijianPindao" :key="value.id">
         <div slot="text">
-          <span>{{ value }}12312321233</span>
+          <van-icon name="plus"></van-icon>
+          <span>{{ value.name }}</span>
         </div>
       </van-grid-item>
     </van-grid>
@@ -26,12 +28,40 @@
 </template>
 
 <script>
+import { getAllChannels } from '@/api/channel';
+
 export default {
   name: 'ChannelEdit',
   props: {
+    // 我的频道
     channels: {
       type: Array,
       required: true
+    }
+  },
+  data() {
+    return {
+      tuijianPindao: []
+    };
+  },
+  created() {
+    this.getAllChannels();
+  },
+  methods: {
+    async getAllChannels() {
+      try {
+        const res = await getAllChannels();
+        this.tuijianPindao = res.data.channels.filter((item) => {
+          return (
+            this.channels.findIndex((childItem) => {
+              return item.id === childItem.id;
+            }) === -1
+          );
+        });
+        console.log('所有频道：', this.tuijianPindao);
+      } catch (err) {
+        console.log('‘获取失败');
+      }
     }
   }
 };
@@ -51,6 +81,11 @@ export default {
       word-break: break-all;
       overflow: hidden;
       text-overflow: ellipsis;
+    }
+    /deep/ .van-icon {
+      margin-right: 4px;
+      top: 6px;
+      font-size: 32px;
     }
   }
 }
