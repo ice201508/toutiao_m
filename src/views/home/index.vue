@@ -22,10 +22,22 @@
         <article-list :channelid="item.id"></article-list>
       </van-tab>
       <div slot="nav-right" class="placeholder"></div>
-      <div slot="nav-right" class="ht-icon">
+      <div slot="nav-right" class="ht-icon" @click="popupClick">
         <i class="iconfont icongengduo"></i>
       </div>
     </van-tabs>
+
+    <!-- 频道编辑弹出层 -->
+    <van-popup
+      v-model="show"
+      closeable
+      close-icon="close"
+      close-icon-position="top-left"
+      position="bottom"
+      :style="{ height: '100%' }"
+      bind:close="onClose"
+    >
+    </van-popup>
   </div>
 </template>
 
@@ -37,7 +49,8 @@ export default {
   name: 'home',
   data() {
     return {
-      channels: []
+      channels: [],
+      show: false
     };
   },
   components: {
@@ -55,7 +68,15 @@ export default {
         this.$toast.fail('获取用户频道信息失败');
       }
     },
-    onClickRight() {}
+    onClickRight() {},
+    popupClick() {
+      console.log('打开popup');
+      this.show = true;
+    },
+    onClose() {
+      this.show = false;
+      console.log(123);
+    }
   }
 };
 </script>
