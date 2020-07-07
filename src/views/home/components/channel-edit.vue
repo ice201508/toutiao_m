@@ -42,7 +42,9 @@
 </template>
 
 <script>
-import { getAllChannels } from '@/api/channel';
+import { getAllChannels, setUserChannels, deleteUserChannel } from '@/api/channel';
+import { mapState } from 'vuex';
+import { setItem } from '@/utils/storage';
 
 export default {
   name: 'ChannelEdit',
@@ -55,6 +57,9 @@ export default {
     activeIndex: {
       type: Number,
       required: true
+    },
+    showEditWithPop: {
+      type: Boolean
     }
   },
   data() {
@@ -65,7 +70,7 @@ export default {
   },
   created() {
     this.getAllChannels();
-    console.log(this.activeIndex);
+    console.log(this.activeIndex, this.showEditWithPop);
   },
   methods: {
     async getAllChannels() {
@@ -77,25 +82,61 @@ export default {
         console.log('‘获取失败');
       }
     },
-    onAddChannel(param) {
+    async onAddChannel(param) {
+      // 添加评论要分为  登录和未登录
       // 单向数据流问题， 数组的push不算更改
       this.channels.push(param);
+      try {
+        if (this.token) {
+          // 登录过就添加到服务器数据库里
+          await setUserChannels({
+            channels: [
+              {
+                id: param.id,
+                seq: this.channels.length
+              }
+            ]
+          });
+        } else {
+          // 没有登录就添加到本地存储里面
+          setItem('channels', this.channels);
+        }
+      } catch (err) {
+        this.$toast.fail('添加频道失败');
+      }
     },
+    // 既可以删除频道，又可以切换外面组件的频道
     handleChannel(id) {
       if (this.isShowEdit) {
         if (id != 0) {
           let curr_index = this.channels.findIndex(function(item) {
             return item.id === id;
           });
+          // 删除当前组件频道的变量里面的数据
           this.channels.splice(curr_index, 1);
+          // 下面是根据登录和未登录删除频道的逻辑，封装函数
+          this.deleteChannel(id);
         }
       } else {
         // 非编辑状态下，点击我的频道就是切换频道的意思
         this.$emit('TOGGLE_CHANNEL', id);
       }
+    },
+    // 删除频道的逻辑
+    async deleteChannel(param) {
+      try {
+        if (this.token) {
+          await deleteUserChannel(param);
+        } else {
+          setItem('channels', this.channels);
+        }
+      } catch (err) {
+        this.$toast.fail('删除频道失败');
+      }
     }
   },
   computed: {
+    ...mapState(['token']),
     recommendChannels() {
       return this.allChannel.filter((item) => {
         return (

@@ -39,13 +39,19 @@
     <van-popup
       v-model="show"
       round
+      @closed="popClose"
       closeable
       close-icon-position="top-left"
       position="bottom"
       :style="{ height: '95%' }"
       bind:close="onClose"
     >
-      <channel-edit :channels="channels" :activeIndex="active" @TOGGLE_CHANNEL="getIdFromChild" />
+      <channel-edit
+        :channels="channels"
+        :showEditWithPop="show"
+        :activeIndex="active"
+        @TOGGLE_CHANNEL="getIdFromChild"
+      />
     </van-popup>
   </div>
 </template>
@@ -91,6 +97,7 @@ export default {
     popupClick() {
       this.show = true;
     },
+    popClose() {},
     onClose() {
       this.show = false;
       console.log(123);
