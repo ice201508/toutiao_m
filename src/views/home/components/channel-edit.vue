@@ -13,9 +13,12 @@
         :class="{ 'is-edit': isShowEdit && value.id !== 0 }"
         v-for="value in channels"
         :key="value.id"
+        @click="handleChannel(value.id)"
       >
         <van-icon v-show="isShowEdit && value.id !== 0" slot="icon" name="clear" />
-        <span slot="text">{{ value.name }}</span>
+        <span slot="text" class="channel-name" :class="{ active: activeIndex == value.id }">{{
+          value.name
+        }}</span>
       </van-grid-item>
     </van-grid>
 
@@ -48,6 +51,10 @@ export default {
     channels: {
       type: Array,
       required: true
+    },
+    activeIndex: {
+      type: Number,
+      required: true
     }
   },
   data() {
@@ -58,6 +65,7 @@ export default {
   },
   created() {
     this.getAllChannels();
+    console.log(this.activeIndex);
   },
   methods: {
     async getAllChannels() {
@@ -72,6 +80,19 @@ export default {
     onAddChannel(param) {
       // 单向数据流问题， 数组的push不算更改
       this.channels.push(param);
+    },
+    handleChannel(id) {
+      if (this.isShowEdit) {
+        if (id != 0) {
+          let curr_index = this.channels.findIndex(function(item) {
+            return item.id === id;
+          });
+          this.channels.splice(curr_index, 1);
+        }
+      } else {
+        // 非编辑状态下，点击我的频道就是切换频道的意思
+        this.$emit('TOGGLE_CHANNEL', id);
+      }
     }
   },
   computed: {
@@ -118,6 +139,9 @@ export default {
       margin-right: 4px;
       top: 6px;
       font-size: 32px;
+    }
+    .channel-name.active {
+      color: #f85959;
     }
   }
 }

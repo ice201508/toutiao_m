@@ -15,8 +15,16 @@
       </div>
     </van-nav-bar>
     <!-- 频道列表 -->
-    <van-tabs class="home-tabs" color="#3296fa" line-width="18" animated swipeable>
-      <van-tab :title="item.name" v-for="item in channels" :key="item.id">
+    <van-tabs
+      class="home-tabs"
+      v-model="active"
+      color="#3296fa"
+      line-width="18"
+      animated
+      swipeable
+      @click="onClick"
+    >
+      <van-tab :title="item.name" :name="item.id" v-for="item in channels" :key="item.id">
         <!-- 文章列表 -->
         <!-- 写成组件的形式，这样每点击一下tabbar都可以将对已的文章列表数据保存起来 -->
         <article-list :channelid="item.id"></article-list>
@@ -30,13 +38,14 @@
     <!-- 频道编辑弹出层 -->
     <van-popup
       v-model="show"
+      round
       closeable
       close-icon-position="top-left"
       position="bottom"
-      :style="{ height: '100%' }"
+      :style="{ height: '95%' }"
       bind:close="onClose"
     >
-      <channel-edit :channels="channels" />
+      <channel-edit :channels="channels" :activeIndex="active" @TOGGLE_CHANNEL="getIdFromChild" />
     </van-popup>
   </div>
 </template>
@@ -51,7 +60,8 @@ export default {
   data() {
     return {
       channels: [],
-      show: false
+      show: false,
+      active: 0
     };
   },
   components: {
@@ -62,6 +72,9 @@ export default {
     this.getChannels();
   },
   methods: {
+    onClick() {
+      console.log(this.active);
+    },
     async getChannels() {
       try {
         const res = await getUserChannels();
@@ -70,9 +83,12 @@ export default {
         this.$toast.fail('获取用户频道信息失败');
       }
     },
+    getIdFromChild(id) {
+      this.active = id;
+      this.show = false;
+    },
     onClickRight() {},
     popupClick() {
-      console.log('打开popup');
       this.show = true;
     },
     onClose() {
