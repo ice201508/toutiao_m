@@ -1,6 +1,10 @@
 <template>
-  <div>
-    搜索建议
+  <div class="search-suggestion">
+    <van-cell-group>
+      <van-cell title="单元格" icon="search" />
+      <van-cell title="单元格" icon="search" />
+      <van-cell title="单元格" icon="search" />
+    </van-cell-group>
   </div>
 </template>
 
@@ -10,4 +14,8 @@ export default {
 };
 </script>
 
-<style lang="less" scoped></style>
+<style lang="less" scoped>
+.search-suggestion {
+  margin: 15px 0;
+}
+</style>

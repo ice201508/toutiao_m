@@ -14,11 +14,11 @@
     </form>
 
     <!-- 搜索历史 -->
-    <SearchHistory />
+    <SearchHistory v-if="showStatus === 'history'" />
     <!-- 搜索建议 -->
-    <SearchSuggestion />
+    <SearchSuggestion v-if="showStatus === 'suggestion'" />
     <!-- 搜索结果 -->
-    <SearchResult />
+    <SearchResult v-if="showStatus === 'result'" />
   </div>
 </template>
 
@@ -31,7 +31,8 @@ export default {
   name: 'SearchPage',
   data() {
     return {
-      value: ''
+      value: '',
+      showStatus: 'history'
     };
   },
   components: {
@@ -42,13 +43,18 @@ export default {
   created() {},
   methods: {
     onSearch() {
-      console.log(11);
+      this.showStatus = 'result';
     },
     onCancel() {
-      console.log(222);
+      // this.showStatus = 'history';
+      this.$router.back();
     },
     onInput() {
-      console.log('输入框内容发生变化');
+      if (this.value.trim()) {
+        this.showStatus = 'suggestion';
+      } else {
+        this.showStatus = 'history';
+      }
     }
   },
   computed: {}
