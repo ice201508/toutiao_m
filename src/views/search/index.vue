@@ -16,7 +16,7 @@
     <!-- 搜索历史 -->
     <SearchHistory v-if="showStatus === 'history'" />
     <!-- 搜索建议 -->
-    <SearchSuggestion v-if="showStatus === 'suggestion'" />
+    <SearchSuggestion :search-text="value" v-if="showStatus === 'suggestion'" />
     <!-- 搜索结果 -->
     <SearchResult v-if="showStatus === 'result'" />
   </div>
@@ -50,6 +50,8 @@ export default {
       this.$router.back();
     },
     onInput() {
+      // 搜索建议，并不需要在input事件里面获取最新的value
+      // 只需要将value值传递给suggestion组件即可，就可以实现同步变化
       if (this.value.trim()) {
         this.showStatus = 'suggestion';
       } else {
