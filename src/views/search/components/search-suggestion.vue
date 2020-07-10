@@ -1,7 +1,9 @@
 <template>
   <div class="search-suggestion">
     <van-cell-group>
-      <van-cell v-for="(item, index) in suggestionList" :key="index" title="item" icon="search" />
+      <van-cell v-for="(item, index) in suggestionList" :key="index" icon="search">
+        <div slot="title" v-html="highLight(item, searchText)"></div>
+      </van-cell>
     </van-cell-group>
   </div>
 </template>
@@ -32,6 +34,13 @@ export default {
       } catch (err) {
         this.$toast.fail('获取建议数据失败，请重试！');
       }
+    },
+    // 将我们的关键词在搜索结果的每一行字中高亮显示
+    // source就是当前搜索的结果哪一行， keyword就是我们输入的关键词
+    highLight(source, keyword) {
+      let pattern = new RegExp(keyword, 'gi');
+      // 字符串的replace方法 会返回一个被替换过后的字符串
+      return source.replace(pattern, `<span style="color:#3296fa">${keyword}</span>`);
     }
   },
   watch: {
