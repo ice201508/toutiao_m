@@ -14,7 +14,12 @@
     </form>
 
     <!-- 搜索历史 -->
-    <SearchHistory :search-histories="searchHistories" v-if="showStatus === 'history'" />
+    <SearchHistory
+      :search-histories="searchHistories"
+      @clear-search-histories="clearHistories"
+      @onSearch="onSearch"
+      v-if="showStatus === 'history'"
+    />
     <!-- 搜索建议 -->
     <SearchSuggestion :search-text="value" v-if="showStatus === 'suggestion'" />
     <!-- 搜索结果 -->
@@ -54,7 +59,10 @@ export default {
         this.searchHistories.unshift(val);
       }
       setItem('TOUTIAO_HISTORY', this.searchHistories);
-      console.log(this.searchHistories);
+    },
+    clearHistories() {
+      this.searchHistories = [];
+      setItem('TOUTIAO_HISTORY', this.searchHistories);
     },
     onCancel() {
       // this.showStatus = 'history';
