@@ -14,7 +14,7 @@
     </form>
 
     <!-- 搜索历史 -->
-    <SearchHistory v-if="showStatus === 'history'" />
+    <SearchHistory :search-histories="searchHistories" v-if="showStatus === 'history'" />
     <!-- 搜索建议 -->
     <SearchSuggestion :search-text="value" v-if="showStatus === 'suggestion'" />
     <!-- 搜索结果 -->
@@ -23,6 +23,7 @@
 </template>
 
 <script>
+import { setItem, getItem } from '@/utils/storage';
 import SearchHistory from './components/search-history.vue';
 import SearchSuggestion from './components/search-suggestion.vue';
 import SearchResult from './components/search-result.vue';
@@ -32,7 +33,8 @@ export default {
   data() {
     return {
       value: '',
-      showStatus: 'history'
+      showStatus: 'history',
+      searchHistories: getItem('TOUTIAO_HISTORY') || [] // 放在undeinfed产生
     };
   },
   components: {
@@ -42,8 +44,17 @@ export default {
   },
   created() {},
   methods: {
-    onSearch() {
+    onSearch(val) {
       this.showStatus = 'result';
+      this.value = val;
+      let index = this.searchHistories.indexOf(val);
+      if (index !== -1) {
+        this.searchHistories.splice(index, 1);
+      } else {
+        this.searchHistories.unshift(val);
+      }
+      setItem('TOUTIAO_HISTORY', this.searchHistories);
+      console.log(this.searchHistories);
     },
     onCancel() {
       // this.showStatus = 'history';
