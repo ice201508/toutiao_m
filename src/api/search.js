@@ -10,3 +10,12 @@ export const getSuggestion = (q) => {
     }
   });
 };
+
+// 获取搜索结果
+export const searchResult = (params) => {
+  return request({
+    url: '/app/v1_0/search',
+    type: 'GET',
+    params
+  });
+};

@@ -1,7 +1,7 @@
 <template>
   <div class="search-container">
     <!-- 搜索页面分为： 搜索框 + 搜索历史 + 搜索建议 + 搜索结果(回车键) 采用三个组件的方式开发 -->
-    <form action="/">
+    <form action="/" class="search-form">
       <van-search
         v-model="value"
         show-action
@@ -18,7 +18,7 @@
     <!-- 搜索建议 -->
     <SearchSuggestion :search-text="value" v-if="showStatus === 'suggestion'" />
     <!-- 搜索结果 -->
-    <SearchResult v-if="showStatus === 'result'" />
+    <SearchResult :search-text="value" v-if="showStatus === 'result'" />
   </div>
 </template>
 
@@ -65,8 +65,16 @@ export default {
 
 <style lang="less" scoped>
 .search-container {
+  padding-top: 110px;
   /deep/ .van-search__action {
     color: #fff;
+  }
+  .search-form {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    z-index: 1;
   }
 }
 </style>
