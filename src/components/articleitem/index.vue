@@ -1,5 +1,18 @@
 <template>
-  <van-cell class="article-item" center>
+  <!-- https://router.vuejs.org/zh/guide/essentials/navigation.html -->
+  <!-- 如果使用了path属性， 那么params就会被忽略，但是query不会被忽略 -->
+  <!-- 所以一般是使用name属性和 params配合 -->
+  <!-- 当然也可以使用功能path一个完整的路径，后面跟上我们的 动态参数 path : `/article/${article.art_id}` -->
+  <van-cell
+    class="article-item"
+    center
+    :to="{
+      name: 'article',
+      params: {
+        article_id: article.art_id
+      }
+    }"
+  >
     <div slot="title">
       {{ article.title }}
     </div>
