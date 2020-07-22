@@ -1,7 +1,12 @@
 <template>
   <div class="article-container">
     <!-- 导航栏 -->
-    <van-nav-bar class="page-nav-bar" left-arrow title="黑马头条"></van-nav-bar>
+    <van-nav-bar
+      class="page-nav-bar"
+      left-arrow
+      title="黑马头条"
+      @click="$router.back()"
+    ></van-nav-bar>
     <!-- /导航栏 -->
 
     <div class="main-wrap">
@@ -14,20 +19,14 @@
       <!-- 加载完成-文章详情 -->
       <div class="article-detail">
         <!-- 文章标题 -->
-        <h1 class="article-title">这是文章标题</h1>
+        <h1 class="article-title">{{ article.title }}</h1>
         <!-- /文章标题 -->
 
         <!-- 用户信息 -->
         <van-cell class="user-info" center :border="false">
-          <van-image
-            class="avatar"
-            slot="icon"
-            round
-            fit="cover"
-            src="https://img.yzcdn.cn/vant/cat.jpeg"
-          />
-          <div slot="title" class="user-name">黑马头条号</div>
-          <div slot="label" class="publish-date">14小时前</div>
+          <van-image class="avatar" slot="icon" round fit="cover" :src="article.aut_photo" />
+          <div slot="title" class="user-name">{{ article.aut_name }}</div>
+          <div slot="label" class="publish-date">{{ article.pubdate | relativeTime }}</div>
           <van-button class="follow-btn" type="info" color="#3296fa" round size="small" icon="plus"
             >关注</van-button
           >
@@ -40,7 +39,7 @@
         <!-- /用户信息 -->
 
         <!-- 文章内容 -->
-        <div class="article-content">这是文章内容</div>
+        <div class="article-content" v-html="article.content"></div>
         <van-divider>正文结束</van-divider>
       </div>
       <!-- /加载完成-文章详情 -->
@@ -74,23 +73,33 @@
 </template>
 
 <script>
+import { getArticleById } from '@/api/article';
+
 export default {
   name: 'ArticleIndex',
   components: {},
   props: {
-    articleId: {
-      type: [Number, String],
+    article_id: {
+      type: [Number, String, Object],
       required: true
     }
   },
   data() {
-    return {};
+    return {
+      article: {}
+    };
   },
-  computed: {},
-  watch: {},
-  created() {},
-  mounted() {},
-  methods: {}
+  created() {
+    this.loadArticleDetail();
+  },
+  methods: {
+    async loadArticleDetail() {
+      try {
+        const { data } = await getArticleById(this.article_id);
+        this.article = data;
+      } catch (err) {}
+    }
+  }
 };
 </script>
 

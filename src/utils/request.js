@@ -63,7 +63,6 @@ request.interceptors.request.use(
 
 request.interceptors.response.use(
   function(response) {
-    console.log('2相应拦截器', response.data);
     return response.data;
   },
   function(error) {
