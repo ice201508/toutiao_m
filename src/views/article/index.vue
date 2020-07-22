@@ -11,13 +11,13 @@
 
     <div class="main-wrap">
       <!-- 加载中 -->
-      <div class="loading-wrap">
+      <div class="loading-wrap" v-if="loading">
         <van-loading color="#3296fa" vertical>加载中</van-loading>
       </div>
       <!-- /加载中 -->
 
       <!-- 加载完成-文章详情 -->
-      <div class="article-detail">
+      <div v-else-if="article.art_id" class="article-detail markdown-body">
         <!-- 文章标题 -->
         <h1 class="article-title">{{ article.title }}</h1>
         <!-- /文章标题 -->
@@ -45,17 +45,17 @@
       <!-- /加载完成-文章详情 -->
 
       <!-- 加载失败：404 -->
-      <div class="error-wrap">
+      <div class="error-wrap" v-else-if="errorStatus === 404">
         <van-icon name="failure" />
         <p class="text">该资源不存在或已删除！</p>
       </div>
       <!-- /加载失败：404 -->
 
       <!-- 加载失败：其它未知错误（例如网络原因或服务端异常） -->
-      <div class="error-wrap">
+      <div class="error-wrap" v-else>
         <van-icon name="failure" />
         <p class="text">内容加载失败！</p>
-        <van-button class="retry-btn">点击重试</van-button>
+        <van-button class="retry-btn" @click="loadArticleDetail">点击重试</van-button>
       </div>
       <!-- /加载失败：其它未知错误（例如网络原因或服务端异常） -->
     </div>
@@ -86,7 +86,9 @@ export default {
   },
   data() {
     return {
-      article: {}
+      article: {},
+      loading: true,
+      errorStatus: 0
     };
   },
   created() {
@@ -94,16 +96,24 @@ export default {
   },
   methods: {
     async loadArticleDetail() {
+      this.loading = true;
       try {
         const { data } = await getArticleById(this.article_id);
         this.article = data;
-      } catch (err) {}
+      } catch (err) {
+        if (err.response && err.response.status == 404) {
+          this.errorStatus = 404;
+        }
+      }
+      this.loading = false;
     }
   }
 };
 </script>
 
 <style scoped lang="less">
+@import './github-markdown.css';
+
 .article-container {
   .main-wrap {
     position: fixed;
