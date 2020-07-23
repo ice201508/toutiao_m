@@ -19,7 +19,7 @@
     <div slot="label">
       <!-- 封面类型，cover.type 0-无封面，1-1张封面图片，3-3张封面 -->
       <div class="img-three" v-if="article.cover.type === 3">
-        <img v-for="perimg in article.cover.images" :key="perimg" :src="perimg" />
+        <img v-for="(perimg, index) in article.cover.images" :key="index" :src="perimg" />
       </div>
       <div>
         <span>{{ article.aut_name }}</span>

@@ -5,7 +5,7 @@
       class="page-nav-bar"
       left-arrow
       title="黑马头条"
-      @click="$router.back()"
+      @click-left="$router.back()"
     ></van-nav-bar>
     <!-- /导航栏 -->
 
@@ -76,14 +76,6 @@
 import { getArticleById } from '@/api/article';
 import { ImagePreview } from 'vant';
 
-// ImagePreview({
-//   images: ['https://img.yzcdn.cn/vant/apple-1.jpg', 'https://img.yzcdn.cn/vant/apple-2.jpg'],
-//   startPosition: 1,
-//   onClose() {
-//     // do something
-//   }
-// });
-
 export default {
   name: 'ArticleIndex',
   components: {},
@@ -110,9 +102,17 @@ export default {
         const { data } = await getArticleById(this.article_id);
         this.article = data;
 
+        // this.$nextTick(function() {
+        //   console.log(111, this.$refs['article-content']);
+        // });
+        this.$nextTick.then(function() {
+          console.log(111, this.$refs['article-content']);
+        });
+
         // 请求成功以后获取dom节点
         setTimeout(() => {
-          console.log(this.$refs['article-content']);
+          // console.log(this.$refs['article-content']);
+          this.previewImage();
         }, 0);
       } catch (err) {
         if (err.response && err.response.status == 404) {
@@ -121,7 +121,23 @@ export default {
       }
       this.loading = false;
     },
-    previewImage() {}
+    previewImage() {
+      const articleContentDom = this.$refs['article-content'];
+      const imgsDom = articleContentDom.querySelectorAll('img');
+
+      let images = [];
+      console.log(imgsDom);
+
+      imgsDom.forEach((img, index) => {
+        images.push(img.src);
+        img.addEventListener('click', function() {
+          ImagePreview({
+            images,
+            startPosition: index
+          });
+        });
+      });
+    }
   }
 };
 </script>
