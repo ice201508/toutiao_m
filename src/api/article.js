@@ -37,3 +37,22 @@ export const deleteCollectionAjax = (target) => {
     method: 'DELETE'
   });
 };
+
+// 文章点赞
+export const addLikingsAjax = (target) => {
+  return request({
+    url: '/app/v1_0/article/likings',
+    method: 'POST',
+    data: {
+      target
+    }
+  });
+};
+
+// 文章点赞
+export const deleteLikingsAjax = (target) => {
+  return request({
+    url: '/app/v1_0/article/likings/' + target,
+    method: 'DELETE'
+  });
+};

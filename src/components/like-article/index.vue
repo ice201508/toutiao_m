@@ -9,6 +9,7 @@
 </template>
 
 <script>
+import { addLikingsAjax, deleteLikingsAjax } from '@/api/article';
 export default {
   name: 'LikeArticle',
   props: {
@@ -27,21 +28,23 @@ export default {
     };
   },
   methods: {
-    async handlerCollect() {
-      // this.loading = true;
-      // try {
-      //   if (this.value) {
-      //     // 取消收藏
-      //     await deleteCollectionAjax(this.articleId);
-      //   } else {
-      //     await addCollectionAjax(this.articleId);
-      //   }
-      //   this.$emit('input', !this.value);
-      //   this.$toast.success(this.value ? '文章收藏成功' : '文章取消收藏成功');
-      // } catch (err) {
-      //   this.$toast('文章收藏请求失败');
-      // }
-      // this.loading = false;
+    async handlerLike() {
+      this.loading = true;
+      try {
+        let status = -1;
+        if (this.value == 1) {
+          // 取消喜欢
+          await deleteLikingsAjax(this.articleId);
+        } else {
+          await addLikingsAjax(this.articleId);
+          status = 1;
+        }
+        this.$emit('input', status);
+        this.$toast.success(status == 1 ? '点赞成功' : '取消点赞');
+      } catch (err) {
+        this.$toast('文章收藏请求失败');
+      }
+      this.loading = false;
     }
   }
 };
