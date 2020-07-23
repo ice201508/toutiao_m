@@ -18,3 +18,22 @@ export const getArticleById = (id) => {
     methods: 'GET'
   });
 };
+
+// 文章收藏
+export const addCollectionAjax = (target) => {
+  return request({
+    url: '/app/v1_0/article/collections',
+    method: 'POST',
+    data: {
+      target
+    }
+  });
+};
+
+// 文章取消收藏
+export const deleteCollectionAjax = (target) => {
+  return request({
+    url: '/app/v1_0/article/collections/' + target,
+    method: 'DELETE'
+  });
+};

@@ -63,10 +63,10 @@
     </div>
 
     <!-- 底部区域 -->
-    <div class="article-bottom">
+    <div class="article-bottom" v-if="article.art_id">
       <van-button class="comment-btn" type="default" round size="small">写评论</van-button>
       <van-icon name="comment-o" info="123" color="#777" />
-      <CollectArticle />
+      <CollectArticle v-model="article.is_collected" :userId="article.aut_id" />
       <van-icon color="#777" name="good-job-o" />
       <van-icon name="share" color="#777777"></van-icon>
     </div>
