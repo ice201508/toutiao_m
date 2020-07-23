@@ -28,11 +28,15 @@
           <div slot="title" class="user-name">{{ article.aut_name }}</div>
           <div slot="label" class="publish-date">{{ article.pubdate | relativeTime }}</div>
 
-          <FollowUser
+          <!-- 在组件上面使用v-model，  默认的行为是 属性value的绑定，和事件input的绑定，我们这里也可以模拟 普通的input输入框上面的v-model指令 -->
+          <!--
             :id_followed="article.is_followed"
-            :userId="article.aut_id"
             @FOLLOW_EVENT="article.is_followed = $event"
-          />
+
+            model属性
+           -->
+          <!-- <FollowUser :userId="article.aut_id" v-model="article.is_followed" /> -->
+          <FollowUser :userId="article.aut_id" v-model="article.is_followed" />
         </van-cell>
         <!-- /用户信息 -->
 

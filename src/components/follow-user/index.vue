@@ -12,7 +12,7 @@
       loading-type="spinner"
       loading-size="16px"
       :disabled="btnDisabled"
-      v-if="id_followed"
+      v-if="is_followed"
       @click="handlerFollow"
       >关注</van-button
     >
@@ -37,12 +37,16 @@ import { addFollowAjax, deleteFollowAjax } from '@/api/user';
 
 export default {
   name: 'FollowUser',
+  model: {
+    prop: 'is_followed',
+    event: 'FOLLOWED_EVENT'
+  },
   props: {
     userId: {
       type: [Number, String],
       required: true
     },
-    id_followed: {
+    is_followed: {
       type: Boolean,
       required: true
     }
@@ -58,14 +62,14 @@ export default {
       this.followLoading = true;
       try {
         this.btnDisabled = true;
-        if (this.id_followed) {
+        if (this.is_followed) {
           // 已关注， 取消关注
           await deleteFollowAjax(this.userId);
         } else {
           await addFollowAjax(this.userId);
         }
         this.btnDisabled = false;
-        this.$emit('FOLLOW_EVENT', !this.id_followed);
+        this.$emit('FOLLOWED_EVENT', !this.is_followed);
       } catch (err) {
         this.btnDisabled = false;
         if (err.response && err.response.status == 400) {
