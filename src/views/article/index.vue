@@ -66,7 +66,7 @@
     <div class="article-bottom">
       <van-button class="comment-btn" type="default" round size="small">写评论</van-button>
       <van-icon name="comment-o" info="123" color="#777" />
-      <van-icon color="#777" name="star-o" />
+      <CollectArticle />
       <van-icon color="#777" name="good-job-o" />
       <van-icon name="share" color="#777777"></van-icon>
     </div>
@@ -78,11 +78,13 @@
 import { getArticleById } from '@/api/article';
 import { ImagePreview } from 'vant';
 import FollowUser from '@/components/follow-user';
+import CollectArticle from '@/components/collect-article';
 
 export default {
   name: 'ArticleIndex',
   components: {
-    FollowUser
+    FollowUser,
+    CollectArticle
   },
   props: {
     article_id: {
@@ -254,7 +256,7 @@ export default {
       line-height: 46px;
       color: #a7a7a7;
     }
-    .van-icon {
+    /deep/ .van-icon {
       font-size: 40px;
       .van-info {
         font-size: 16px;
