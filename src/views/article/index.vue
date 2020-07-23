@@ -27,14 +27,12 @@
           <van-image class="avatar" slot="icon" round fit="cover" :src="article.aut_photo" />
           <div slot="title" class="user-name">{{ article.aut_name }}</div>
           <div slot="label" class="publish-date">{{ article.pubdate | relativeTime }}</div>
-          <van-button class="follow-btn" type="info" color="#3296fa" round size="small" icon="plus"
-            >关注</van-button
-          >
-          <!-- <van-button
-            class="follow-btn"
-            round
-            size="small"
-          >已关注</van-button> -->
+
+          <FollowUser
+            :id_followed="article.is_followed"
+            :userId="article.aut_id"
+            @FOLLOW_EVENT="article.is_followed = $event"
+          />
         </van-cell>
         <!-- /用户信息 -->
 
@@ -75,10 +73,13 @@
 <script>
 import { getArticleById } from '@/api/article';
 import { ImagePreview } from 'vant';
+import FollowUser from '@/components/follow-user';
 
 export default {
   name: 'ArticleIndex',
-  components: {},
+  components: {
+    FollowUser
+  },
   props: {
     article_id: {
       type: [Number, String, Object],
