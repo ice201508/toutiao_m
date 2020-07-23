@@ -66,8 +66,8 @@
     <div class="article-bottom" v-if="article.art_id">
       <van-button class="comment-btn" type="default" round size="small">写评论</van-button>
       <van-icon name="comment-o" info="123" color="#777" />
-      <CollectArticle v-model="article.is_collected" :userId="article.aut_id" />
-      <van-icon color="#777" name="good-job-o" />
+      <CollectArticle v-model="article.is_collected" :userId="article.art_id" />
+      <LikeArticle v-model="article.attitude" :articleId="article.art_id" />
       <van-icon name="share" color="#777777"></van-icon>
     </div>
     <!-- /底部区域 -->
@@ -79,12 +79,14 @@ import { getArticleById } from '@/api/article';
 import { ImagePreview } from 'vant';
 import FollowUser from '@/components/follow-user';
 import CollectArticle from '@/components/collect-article';
+import LikeArticle from '@/components/like-article';
 
 export default {
   name: 'ArticleIndex',
   components: {
     FollowUser,
-    CollectArticle
+    CollectArticle,
+    LikeArticle
   },
   props: {
     article_id: {
