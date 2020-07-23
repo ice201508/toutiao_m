@@ -39,7 +39,7 @@
         <!-- /用户信息 -->
 
         <!-- 文章内容 -->
-        <div class="article-content" v-html="article.content"></div>
+        <div class="article-content" v-html="article.content" ref="article-content"></div>
         <van-divider>正文结束</van-divider>
       </div>
       <!-- /加载完成-文章详情 -->
@@ -74,6 +74,15 @@
 
 <script>
 import { getArticleById } from '@/api/article';
+import { ImagePreview } from 'vant';
+
+// ImagePreview({
+//   images: ['https://img.yzcdn.cn/vant/apple-1.jpg', 'https://img.yzcdn.cn/vant/apple-2.jpg'],
+//   startPosition: 1,
+//   onClose() {
+//     // do something
+//   }
+// });
 
 export default {
   name: 'ArticleIndex',
@@ -100,13 +109,19 @@ export default {
       try {
         const { data } = await getArticleById(this.article_id);
         this.article = data;
+
+        // 请求成功以后获取dom节点
+        setTimeout(() => {
+          console.log(this.$refs['article-content']);
+        }, 0);
       } catch (err) {
         if (err.response && err.response.status == 404) {
           this.errorStatus = 404;
         }
       }
       this.loading = false;
-    }
+    },
+    previewImage() {}
   }
 };
 </script>
