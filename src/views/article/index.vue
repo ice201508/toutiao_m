@@ -43,6 +43,7 @@
         <!-- 文章内容 -->
         <div class="article-content" v-html="article.content" ref="article-content"></div>
         <van-divider>正文结束</van-divider>
+        <CommentList :articleId="article.aut_id" />
       </div>
       <!-- /加载完成-文章详情 -->
 
@@ -80,13 +81,15 @@ import { ImagePreview } from 'vant';
 import FollowUser from '@/components/follow-user';
 import CollectArticle from '@/components/collect-article';
 import LikeArticle from '@/components/like-article';
+import CommentList from './components/comment-list';
 
 export default {
   name: 'ArticleIndex',
   components: {
     FollowUser,
     CollectArticle,
-    LikeArticle
+    LikeArticle,
+    CommentList
   },
   props: {
     article_id: {
@@ -114,9 +117,9 @@ export default {
         // this.$nextTick(function() {
         //   console.log(111, this.$refs['article-content']);
         // });
-        this.$nextTick.then(function() {
-          console.log(111, this.$refs['article-content']);
-        });
+        // this.$nextTick.then(function() {
+        //   console.log(111, this.$refs['article-content']);
+        // });
 
         // 请求成功以后获取dom节点
         setTimeout(() => {
