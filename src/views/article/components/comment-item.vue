@@ -3,7 +3,16 @@
     <van-image slot="icon" class="avatar" round fit="cover" :src="comment.aut_photo" />
     <div slot="title" class="title-wrap">
       <div class="user-name">{{ comment.aut_name }}</div>
-      <van-button class="like-btn" icon="good-job-o">{{ comment.like_count || '赞' }}</van-button>
+      <van-button
+        class="like-btn"
+        :loading="loading"
+        loading-text="请等待"
+        loading-type="spinner"
+        :class="{ liking: comment.is_liking }"
+        :icon="comment.is_liking ? 'good-job' : 'good-job-o'"
+        @click="handlerLiking"
+        >{{ comment.like_count || '赞' }}</van-button
+      >
     </div>
 
     <div slot="label">
@@ -17,6 +26,8 @@
 </template>
 
 <script>
+import { addLikingsAjax, deleteLikingsAjax } from '@/api/comment';
+
 export default {
   name: 'CommentItem',
   props: {
@@ -26,7 +37,31 @@ export default {
     }
   },
   data() {
-    return {};
+    return {
+      loading: false
+    };
+  },
+  methods: {
+    async handlerLiking() {
+      this.loading = true;
+
+      try {
+        if (this.comment.is_liking) {
+          await deleteLikingsAjax(this.comment.com_id);
+          this.comment.like_count--;
+          this.$toast('取消点赞成功');
+        } else {
+          await addLikingsAjax(this.comment.com_id);
+          this.comment.like_count++;
+          this.$toast('点赞成功');
+        }
+        this.comment.is_liking = !this.comment.is_liking;
+      } catch (err) {
+        this.$toast('评论点赞失败');
+      }
+
+      this.loading = false;
+    }
   }
 };
 </script>
@@ -78,6 +113,9 @@ export default {
     margin-right: 7px;
     .van-icon {
       font-size: 30px;
+    }
+    &.liking {
+      color: #e5645f;
     }
   }
 }
