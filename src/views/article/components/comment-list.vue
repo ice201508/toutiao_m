@@ -8,16 +8,22 @@
       :error="error"
       error-text="获取评论失败请重试"
     >
-      <van-cell v-for="(item, index) in commentsList" :key="index" :title="item.content" />
+      <van-cell v-for="(item, index) in commentsList" :key="index">
+        <CommentItem :comment="item" />
+      </van-cell>
     </van-list>
   </div>
 </template>
 
 <script>
 import { getCommentsAjax } from '@/api/comment';
+import CommentItem from './comment-item';
 
 export default {
   name: 'CommentList',
+  components: {
+    CommentItem
+  },
   props: {
     articleId: {
       type: [Number, String, Object],
