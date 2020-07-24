@@ -1,6 +1,13 @@
 <template>
   <div class="comment-list">
-    <van-list v-model="loading" :finished="finished" finished-text="没有更多了" @load="onLoad">
+    <van-list
+      v-model="loading"
+      :finished="finished"
+      finished-text="没有更多了"
+      @load="onLoad"
+      :error="error"
+      error-text="获取评论失败请重试"
+    >
       <van-cell v-for="(item, index) in commentsList" :key="index" :title="item.content" />
     </van-list>
   </div>
@@ -22,9 +29,14 @@ export default {
       commentsList: [],
       loading: false,
       finished: false,
+      error: false,
       offset: null,
       limit: 10
     };
+  },
+  created() {
+    this.loading = true;
+    this.onLoad();
   },
   methods: {
     async onLoad() {
@@ -37,8 +49,8 @@ export default {
           limit: this.limit
         });
 
-        console.log(data);
         this.commentsList.push(...data.results);
+        this.$emit('COMMENT_TOTAL_EVENT', data.total_count);
 
         // 2. 页面数组的数据push  累加
         // 3. loading设置为false
@@ -51,6 +63,7 @@ export default {
         }
       } catch (err) {
         this.loading = false;
+        this.error = false;
       }
     }
   }

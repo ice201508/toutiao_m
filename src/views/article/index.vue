@@ -43,7 +43,10 @@
         <!-- 文章内容 -->
         <div class="article-content" v-html="article.content" ref="article-content"></div>
         <van-divider>正文结束</van-divider>
-        <CommentList :articleId="article.aut_id" />
+        <CommentList
+          :articleId="article.aut_id"
+          @COMMENT_TOTAL_EVENT="commentsTotalCount = $event"
+        />
       </div>
       <!-- /加载完成-文章详情 -->
 
@@ -66,7 +69,7 @@
     <!-- 底部区域 -->
     <div class="article-bottom" v-if="article.art_id">
       <van-button class="comment-btn" type="default" round size="small">写评论</van-button>
-      <van-icon name="comment-o" info="123" color="#777" />
+      <van-icon name="comment-o" :info="commentsTotalCount" color="#777" />
       <CollectArticle v-model="article.is_collected" :userId="article.art_id" />
       <LikeArticle v-model="article.attitude" :articleId="article.art_id" />
       <van-icon name="share" color="#777777"></van-icon>
@@ -101,7 +104,8 @@ export default {
     return {
       article: {},
       loading: true,
-      errorStatus: 0
+      errorStatus: 0,
+      commentsTotalCount: 0
     };
   },
   created() {
