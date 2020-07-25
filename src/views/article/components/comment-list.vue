@@ -56,6 +56,7 @@ export default {
         });
 
         this.commentsList.push(...data.results);
+        console.log(111, this.commentsList);
         this.$emit('COMMENT_TOTAL_EVENT', data.total_count);
 
         // 2. 页面数组的数据push  累加

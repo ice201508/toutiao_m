@@ -25,7 +25,7 @@ export const addCollectionAjax = (target) => {
     url: '/app/v1_0/article/collections',
     method: 'POST',
     data: {
-      target
+      target: JSONBIG.stringify(target)
     }
   });
 };
@@ -44,7 +44,7 @@ export const addLikingsAjax = (target) => {
     url: '/app/v1_0/article/likings',
     method: 'POST',
     data: {
-      target
+      target: JSONBIG.stringify(target)
     }
   });
 };

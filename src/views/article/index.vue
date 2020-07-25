@@ -68,13 +68,18 @@
 
     <!-- 底部区域 -->
     <div class="article-bottom" v-if="article.art_id">
-      <van-button class="comment-btn" type="default" round size="small">写评论</van-button>
+      <van-button class="comment-btn" type="default" round size="small" @click="isShowPop = true"
+        >写评论</van-button
+      >
       <van-icon name="comment-o" :info="commentsTotalCount" color="#777" />
       <CollectArticle v-model="article.is_collected" :userId="article.art_id" />
       <LikeArticle v-model="article.attitude" :articleId="article.art_id" />
       <van-icon name="share" color="#777777"></van-icon>
     </div>
     <!-- /底部区域 -->
+
+    <!-- 写评论的弹出层 -->
+    <van-popup v-model="isShowPop" position="bottom" :style="{ height: '30%' }" />
   </div>
 </template>
 
@@ -105,7 +110,8 @@ export default {
       article: {},
       loading: true,
       errorStatus: 0,
-      commentsTotalCount: 0
+      commentsTotalCount: 0,
+      isShowPop: false
     };
   },
   created() {
