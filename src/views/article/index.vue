@@ -80,7 +80,7 @@
 
     <!-- 写评论的弹出层 -->
     <van-popup v-model="isShowPop" position="bottom">
-      <CommentPost />
+      <CommentPost :target="article.art_id" />
     </van-popup>
   </div>
 </template>

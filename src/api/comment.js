@@ -32,3 +32,12 @@ export const deleteLikingsAjax = (target) => {
     method: 'DELETE'
   });
 };
+
+// 添加评论或者评论回复
+export const addCommentAjax = (data) => {
+  return request({
+    url: '/app/v1_0/comments',
+    method: 'POST',
+    data
+  });
+};

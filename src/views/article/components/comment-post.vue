@@ -10,17 +10,39 @@
       placeholder="请输入评论"
       show-word-limit
     />
-    <van-button class="post-btn">发布</van-button>
+    <van-button class="post-btn" @click="commentPublish">发布</van-button>
   </div>
 </template>
 
 <script>
+import { addCommentAjax } from '@/api/comment';
+
 export default {
   name: 'CommentPost',
+  props: {
+    target: {
+      type: [Number, String, Object],
+      required: true
+    }
+  },
   data() {
     return {
       message: ''
     };
+  },
+  methods: {
+    async commentPublish() {
+      try {
+        const { data } = await addCommentAjax({
+          target: this.target,
+          content: this.message,
+          art_id: null
+        });
+        console.log('看看后端返回的大数字问题：', data);
+      } catch (err) {
+        this.$toast('发表评论失败');
+      }
+    }
   }
 };
 </script>
