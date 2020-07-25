@@ -29,6 +29,10 @@ export default {
       type: [Number, String, Object],
       required: true
     },
+    type: {
+      type: String,
+      default: 'a'
+    },
     commentsList: {
       type: Array,
       default: () => []
@@ -53,8 +57,8 @@ export default {
       try {
         // 1. 发起请求
         const { data } = await getCommentsAjax({
-          type: 'a',
-          source: this.articleId,
+          type: this.type,
+          source: this.articleId.toString(),
           offset: this.offset,
           limit: this.limit
         });
