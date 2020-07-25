@@ -86,8 +86,8 @@
     </van-popup>
 
     <!-- 回复评论的弹出层组件 -->
-    <van-popup v-model="isShowCommentPop" position="bottom" :style="{ height: '90%' }">
-      <CommentReply :comment="currReplyComment" />
+    <van-popup v-model="isShowCommentPop" position="bottom" :style="{ height: '100%' }">
+      <CommentReply :comment="currReplyComment" @CLOSE_REPLY_EVENT="isShowCommentPop = false" />
     </van-popup>
   </div>
 </template>
