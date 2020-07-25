@@ -10,7 +10,7 @@
       placeholder="请输入评论"
       show-word-limit
     />
-    <van-button class="post-btn" @click="commentPublish">发布</van-button>
+    <van-button class="post-btn" @click="commentPublish" :disabled="!message">发布</van-button>
   </div>
 </template>
 
@@ -33,12 +33,20 @@ export default {
   methods: {
     async commentPublish() {
       try {
+        this.$toast.loading({
+          message: '加载中...',
+          forbidClick: true
+        });
         const { data } = await addCommentAjax({
           target: this.target,
           content: this.message,
           art_id: null
         });
+
+        this.message = '';
         console.log('看看后端返回的大数字问题：', data);
+        this.$toast.success('发表评论成功');
+        this.$emit('COMMENT_POST', data.new_obj);
       } catch (err) {
         this.$toast('发表评论失败');
       }

@@ -45,6 +45,7 @@
         <van-divider>正文结束</van-divider>
         <CommentList
           :articleId="article.aut_id"
+          :commentsList="commentsListParent"
           @COMMENT_TOTAL_EVENT="commentsTotalCount = $event"
         />
       </div>
@@ -80,7 +81,7 @@
 
     <!-- 写评论的弹出层 -->
     <van-popup v-model="isShowPop" position="bottom">
-      <CommentPost :target="article.art_id" />
+      <CommentPost :target="article.art_id" @COMMENT_POST="commentPublish" />
     </van-popup>
   </div>
 </template>
@@ -115,7 +116,8 @@ export default {
       loading: true,
       errorStatus: 0,
       commentsTotalCount: 0,
-      isShowPop: false
+      isShowPop: false,
+      commentsListParent: []
     };
   },
   created() {
@@ -163,6 +165,12 @@ export default {
           });
         });
       });
+    },
+    // 发表评论组件
+    commentPublish(e) {
+      this.isShowPop = false;
+      // 将子组件返回的数据添加到数组里面
+      this.commentsListParent.unshift(e);
     }
   }
 };

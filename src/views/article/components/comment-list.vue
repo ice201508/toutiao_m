@@ -28,11 +28,15 @@ export default {
     articleId: {
       type: [Number, String, Object],
       required: true
+    },
+    commentsList: {
+      type: Array,
+      default: () => []
     }
   },
   data() {
     return {
-      commentsList: [],
+      // commentsList: [],
       loading: false,
       finished: false,
       error: false,
