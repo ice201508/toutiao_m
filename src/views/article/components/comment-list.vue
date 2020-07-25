@@ -6,6 +6,7 @@
       finished-text="没有更多了"
       @load="onLoad"
       :error="error"
+      :immediate-check="true"
       error-text="获取评论失败请重试"
     >
       <van-cell v-for="(item, index) in commentsList" :key="index">

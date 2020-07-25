@@ -44,7 +44,7 @@
         <div class="article-content" v-html="article.content" ref="article-content"></div>
         <van-divider>正文结束</van-divider>
         <CommentList
-          :articleId="article.aut_id"
+          :articleId="article.art_id"
           :commentsList="commentsListParent"
           @REPLY_EVENT="onReplyHandler"
           @COMMENT_TOTAL_EVENT="commentsTotalCount = $event"
@@ -87,7 +87,11 @@
 
     <!-- 回复评论的弹出层组件 -->
     <van-popup v-model="isShowCommentPop" position="bottom" :style="{ height: '100%' }">
-      <CommentReply :comment="currReplyComment" @CLOSE_REPLY_EVENT="isShowCommentPop = false" />
+      <CommentReply
+        v-if="isShowCommentPop"
+        :comment="currReplyComment"
+        @CLOSE_REPLY_EVENT="isShowCommentPop = false"
+      />
     </van-popup>
   </div>
 </template>
