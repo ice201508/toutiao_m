@@ -116,6 +116,11 @@ export default {
     CommentPost,
     CommentReply
   },
+  provide: function() {
+    return {
+      article_id: this.article_id
+    };
+  },
   props: {
     article_id: {
       type: [Number, String, Object],

@@ -19,6 +19,12 @@ import { addCommentAjax } from '@/api/comment';
 
 export default {
   name: 'CommentPost',
+  inject: {
+    article_id: {
+      type: [Number, String, Object],
+      required: true
+    }
+  },
   props: {
     target: {
       type: [Number, String, Object],
@@ -38,9 +44,9 @@ export default {
           forbidClick: true
         });
         const { data } = await addCommentAjax({
-          target: this.target,
+          target: this.target.toString(),
           content: this.message,
-          art_id: null
+          art_id: this.article_id ? this.article_id.toString() : null
         });
 
         this.message = '';
