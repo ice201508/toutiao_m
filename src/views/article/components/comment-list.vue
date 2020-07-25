@@ -9,7 +9,7 @@
       error-text="获取评论失败请重试"
     >
       <van-cell v-for="(item, index) in commentsList" :key="index">
-        <CommentItem :comment="item" />
+        <CommentItem :comment="item" @REPLY_EVENT="$emit('REPLY_EVENT', $event)" />
       </van-cell>
     </van-list>
   </div>

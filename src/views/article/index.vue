@@ -46,6 +46,7 @@
         <CommentList
           :articleId="article.aut_id"
           :commentsList="commentsListParent"
+          @REPLY_EVENT="onReplyHandler"
           @COMMENT_TOTAL_EVENT="commentsTotalCount = $event"
         />
       </div>
@@ -123,7 +124,7 @@ export default {
       commentsTotalCount: 0,
       isShowPop: false,
       commentsListParent: [],
-      isShowCommentPop: true
+      isShowCommentPop: false
     };
   },
   created() {
@@ -177,6 +178,10 @@ export default {
       this.isShowPop = false;
       // 将子组件返回的数据添加到数组里面
       this.commentsListParent.unshift(e);
+    },
+    // 子组件 点击回复评论 按钮
+    onReplyHandler(e) {
+      console.log(e);
     }
   }
 };
