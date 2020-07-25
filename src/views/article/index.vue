@@ -79,7 +79,9 @@
     <!-- /底部区域 -->
 
     <!-- 写评论的弹出层 -->
-    <van-popup v-model="isShowPop" position="bottom" :style="{ height: '30%' }" />
+    <van-popup v-model="isShowPop" position="bottom">
+      <CommentPost />
+    </van-popup>
   </div>
 </template>
 
@@ -90,6 +92,7 @@ import FollowUser from '@/components/follow-user';
 import CollectArticle from '@/components/collect-article';
 import LikeArticle from '@/components/like-article';
 import CommentList from './components/comment-list';
+import CommentPost from './components/comment-post';
 
 export default {
   name: 'ArticleIndex',
@@ -97,7 +100,8 @@ export default {
     FollowUser,
     CollectArticle,
     LikeArticle,
-    CommentList
+    CommentList,
+    CommentPost
   },
   props: {
     article_id: {
