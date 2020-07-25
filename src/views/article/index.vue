@@ -83,6 +83,11 @@
     <van-popup v-model="isShowPop" position="bottom">
       <CommentPost :target="article.art_id" @COMMENT_POST="commentPublish" />
     </van-popup>
+
+    <!-- 回复评论的弹出层组件 -->
+    <van-popup v-model="isShowCommentPop" position="bottom" :style="{ height: '90%' }">
+      回复评论组件
+    </van-popup>
   </div>
 </template>
 
@@ -117,7 +122,8 @@ export default {
       errorStatus: 0,
       commentsTotalCount: 0,
       isShowPop: false,
-      commentsListParent: []
+      commentsListParent: [],
+      isShowCommentPop: true
     };
   },
   created() {
