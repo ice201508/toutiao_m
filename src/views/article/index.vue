@@ -87,7 +87,7 @@
 
     <!-- 回复评论的弹出层组件 -->
     <van-popup v-model="isShowCommentPop" position="bottom" :style="{ height: '90%' }">
-      回复评论组件
+      <CommentReply :comment="currReplyComment" />
     </van-popup>
   </div>
 </template>
@@ -100,6 +100,7 @@ import CollectArticle from '@/components/collect-article';
 import LikeArticle from '@/components/like-article';
 import CommentList from './components/comment-list';
 import CommentPost from './components/comment-post';
+import CommentReply from './components/comment-reply';
 
 export default {
   name: 'ArticleIndex',
@@ -108,7 +109,8 @@ export default {
     CollectArticle,
     LikeArticle,
     CommentList,
-    CommentPost
+    CommentPost,
+    CommentReply
   },
   props: {
     article_id: {
@@ -124,7 +126,8 @@ export default {
       commentsTotalCount: 0,
       isShowPop: false,
       commentsListParent: [],
-      isShowCommentPop: false
+      isShowCommentPop: false,
+      currReplyComment: null
     };
   },
   created() {
@@ -182,6 +185,8 @@ export default {
     // 子组件 点击回复评论 按钮
     onReplyHandler(e) {
       console.log(e);
+      this.isShowCommentPop = true;
+      this.currReplyComment = e;
     }
   }
 };
