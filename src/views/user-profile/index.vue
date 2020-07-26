@@ -1,16 +1,42 @@
 <template>
   <div class="user-profile">
     <van-nav-bar title="个人信息" left-arrow @click-left="$router.back()" />
-    <van-cell title="单元格" is-link>
+
+    <input type="file" hidden ref="file" @change="onChange" />
+
+    <van-cell title="单元格" is-link @click="$refs.file.click()">
       <van-image class="avatar" fit="cover" round :src="user.photo" />
     </van-cell>
     <van-cell title="昵称" is-link :value="user.name" @click="updateNamePopShow = true" />
-    <van-cell title="性别" is-link :value="user.gender == 0 ? '男' : '女'" />
-    <van-cell title="生日" is-link :value="user.birthday" />
+    <van-cell
+      title="性别"
+      is-link
+      :value="user.gender == 0 ? '男' : '女'"
+      @click="updateGenderPopShow = true"
+    />
+    <van-cell title="生日" is-link :value="user.birthday" @click="updateBirthdayPopShow = true" />
 
     <!-- 下面就是各个模块的修改功能 -->
     <van-popup v-model="updateNamePopShow" position="bottom" :style="{ height: '100%' }">
       <UpdateName v-if="updateNamePopShow" @close="updateNamePopShow = false" v-model="user.name" />
+    </van-popup>
+
+    <!-- 性别的popup -->
+    <van-popup v-model="updateGenderPopShow" position="bottom">
+      <UpdateGender
+        v-if="updateGenderPopShow"
+        @close="updateGenderPopShow = false"
+        v-model="user.gender"
+      />
+    </van-popup>
+
+    <!-- 时间的popup -->
+    <van-popup v-model="updateBirthdayPopShow" position="bottom">
+      <UpdateBirthday
+        v-if="updateBirthdayPopShow"
+        @close="updateBirthdayPopShow = false"
+        v-model="user.birthday"
+      />
     </van-popup>
   </div>
 </template>
@@ -18,16 +44,22 @@
 <script>
 import { getProfile } from '@/api/user';
 import UpdateName from './components/update-name';
+import UpdateGender from './components/update-gender';
+import UpdateBirthday from './components/update-birthday';
 
 export default {
   name: 'UserProfile',
   components: {
-    UpdateName
+    UpdateName,
+    UpdateGender,
+    UpdateBirthday
   },
   data() {
     return {
       user: {},
-      updateNamePopShow: false
+      updateNamePopShow: false,
+      updateGenderPopShow: false,
+      updateBirthdayPopShow: false
     };
   },
   created() {
@@ -41,6 +73,11 @@ export default {
       } catch (err) {
         this.$toast('获取用户信息失败');
       }
+    },
+    onChange() {
+      const data = this.$refs.file.files[0];
+      const url = window.URL.createObjectURL(data);
+      console.log(url);
     }
   }
 };
