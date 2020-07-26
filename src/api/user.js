@@ -54,3 +54,12 @@ export const getProfile = () => {
     method: 'GET'
   });
 };
+
+// 编辑用户个人资料（包含实名认证）
+export const updateProfile = (data) => {
+  return request({
+    url: '/app/v1_0/user/profile',
+    method: 'PATCH',
+    data
+  });
+};

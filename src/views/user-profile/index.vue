@@ -10,7 +10,7 @@
 
     <!-- 下面就是各个模块的修改功能 -->
     <van-popup v-model="updateNamePopShow" position="bottom" :style="{ height: '100%' }">
-      <UpdateName @close="updateNamePopShow = false" />
+      <UpdateName v-if="updateNamePopShow" @close="updateNamePopShow = false" v-model="user.name" />
     </van-popup>
   </div>
 </template>
