@@ -4,20 +4,30 @@
     <van-cell title="单元格" is-link>
       <van-image class="avatar" fit="cover" round :src="user.photo" />
     </van-cell>
-    <van-cell title="昵称" is-link :value="user.name" />
+    <van-cell title="昵称" is-link :value="user.name" @click="updateNamePopShow = true" />
     <van-cell title="性别" is-link :value="user.gender == 0 ? '男' : '女'" />
     <van-cell title="生日" is-link :value="user.birthday" />
+
+    <!-- 下面就是各个模块的修改功能 -->
+    <van-popup v-model="updateNamePopShow" position="bottom" :style="{ height: '100%' }">
+      <UpdateName />
+    </van-popup>
   </div>
 </template>
 
 <script>
 import { getProfile } from '@/api/user';
+import UpdateName from './components/update-name';
 
 export default {
   name: 'UserProfile',
+  components: {
+    UpdateName
+  },
   data() {
     return {
-      user: {}
+      user: {},
+      updateNamePopShow: false
     };
   },
   created() {
