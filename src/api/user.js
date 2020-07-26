@@ -46,3 +46,11 @@ export const deleteFollowAjax = (target) => {
     method: 'DELETE'
   });
 };
+
+// 获取用户个人信息
+export const getProfile = () => {
+  return request({
+    url: '/app/v1_0/user/profile',
+    method: 'GET'
+  });
+};

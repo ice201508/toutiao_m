@@ -20,7 +20,7 @@
     </div>
 
     <van-popup v-model="isShowCommentCCPop" position="bottom">
-      <CommentPost :target="comment.com_id" />
+      <CommentPost :target="comment.com_id" @COMMENT_POST="handlerComment" />
     </van-popup>
   </div>
 </template>
@@ -41,12 +41,23 @@ export default {
     comment: {
       type: Object,
       required: true
+    },
+    commentsList: {
+      type: Array,
+      required: true
     }
   },
   data() {
     return {
       isShowCommentCCPop: false
     };
+  },
+  methods: {
+    handlerComment(data) {
+      this.isShowCommentCCPop = false;
+      this.comment.reply_count++;
+      this.commentsList.unshift(data);
+    }
   }
 };
 </script>

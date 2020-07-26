@@ -89,6 +89,7 @@
     <van-popup v-model="isShowCommentPop" position="bottom" :style="{ height: '100%' }">
       <CommentReply
         v-if="isShowCommentPop"
+        :commentsList="commentsListParent"
         :comment="currReplyComment"
         @CLOSE_REPLY_EVENT="isShowCommentPop = false"
       />

@@ -8,7 +8,9 @@
           <img :src="userInfo.photo" :alt="userInfo.name" />
         </div>
         <div class="ulo-2">{{ userInfo.name }}</div>
-        <div class="ulo-3">编辑资料</div>
+        <div class="ulo-3">
+          <router-link :to="'user-profile'">编辑资料</router-link>
+        </div>
       </div>
       <ul class="ul-two" v-if="userInfo">
         <li>
@@ -161,6 +163,9 @@ export default {
       border-radius: 50px;
       margin-top: 40px;
       font-size: 26px;
+      a {
+        color: black;
+      }
     }
   }
   .ul-two {
