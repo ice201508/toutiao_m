@@ -4,7 +4,7 @@
 
     <input type="file" hidden ref="file" @change="onChange" />
 
-    <van-cell title="单元格" is-link @click="$refs.file.click()">
+    <van-cell title="头像" is-link @click="$refs.file.click()">
       <van-image class="avatar" fit="cover" round :src="user.photo" />
     </van-cell>
     <van-cell title="昵称" is-link :value="user.name" @click="updateNamePopShow = true" />
@@ -38,6 +38,11 @@
         v-model="user.birthday"
       />
     </van-popup>
+
+    <!-- 头像的popup -->
+    <van-popup v-model="updatePhotoPopShow" position="bottom" style="height: 100%">
+      <UpdatePhoto v-if="updatePhotoPopShow" @close="updatePhotoPopShow = false" :img="img" />
+    </van-popup>
   </div>
 </template>
 
@@ -46,20 +51,24 @@ import { getProfile } from '@/api/user';
 import UpdateName from './components/update-name';
 import UpdateGender from './components/update-gender';
 import UpdateBirthday from './components/update-birthday';
+import UpdatePhoto from './components/update-photo.vue';
 
 export default {
   name: 'UserProfile',
   components: {
     UpdateName,
     UpdateGender,
-    UpdateBirthday
+    UpdateBirthday,
+    UpdatePhoto
   },
   data() {
     return {
       user: {},
       updateNamePopShow: false,
       updateGenderPopShow: false,
-      updateBirthdayPopShow: false
+      updateBirthdayPopShow: false,
+      updatePhotoPopShow: false,
+      img: null
     };
   },
   created() {
@@ -76,8 +85,8 @@ export default {
     },
     onChange() {
       const data = this.$refs.file.files[0];
-      const url = window.URL.createObjectURL(data);
-      console.log(url);
+      this.img = window.URL.createObjectURL(data);
+      this.updatePhotoPopShow = true;
     }
   }
 };
