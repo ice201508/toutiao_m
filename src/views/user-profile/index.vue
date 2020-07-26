@@ -10,7 +10,7 @@
 
     <!-- 下面就是各个模块的修改功能 -->
     <van-popup v-model="updateNamePopShow" position="bottom" :style="{ height: '100%' }">
-      <UpdateName />
+      <UpdateName @close="updateNamePopShow = false" />
     </van-popup>
   </div>
 </template>
@@ -58,6 +58,9 @@ export default {
   .avatar {
     width: 60px;
     height: 60px;
+  }
+  .van-popup {
+    background-color: #f5f7f9;
   }
 }
 </style>
